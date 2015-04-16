@@ -1,0 +1,310 @@
+\documentclass{beamer}
+
+\usepackage{lmodern}
+\usepackage[spanish]{babel}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{hyperref}
+\usepackage{bm}
+
+\newcommand{\hrefCustom}[2]{\href{#1}{\color{blue} #2}}
+
+\setlength{\parskip}{1em}
+\usetheme{Warsaw}
+
+\title{Lógica aplicada en IDS's}
+\subtitle{IDS = Intrusion Detection System}
+\author{Carlos Ledesma}
+\institute{Gestión Inteligente de la Información}
+\date{}
+
+\AtBeginSection[]
+{
+	\begin{frame}[shrink=20]
+		\frametitle{Índice}
+		\vspace{2em}
+		\tableofcontents[currentsection]
+	\end{frame}
+}
+
+\AtBeginSubsection[]
+{
+	\begin{frame}[shrink=20]
+		\frametitle{Índice}
+		\vspace{2em}
+		\tableofcontents[currentsection,currentsubsection]
+	\end{frame}
+}
+
+\begin{document}
+
+\begin{frame}
+\titlepage
+\end{frame}
+
+\section{Introducción}
+
+\subsection{Evolución de mi interés en el tiempo}
+
+\begin{frame}{Lógica cuántica}
+
+La primera aplicación de la lógica que se me viene a la cabeza, es la lógica cuántica:
+
+\begin{itemize}
+	\item \textbf{Problema:} Suena interesante, pero mi conocimiento sobre la computación cuántica no pasa del nivel divulgativo, y lo veo un futuro muy lejano y abstracto. Me pongo a leer lo más básico y me pierdo. Pierdo el interés...
+\end{itemize}
+
+\end{frame}
+
+\begin{frame}{Análisis de malware}
+
+Hace un mes, me pongo a buscar aplicaciones de la lógica en el análisis de malware:
+
+\begin{itemize}
+	\item \textbf{Problema:} Es lo que más me interesa actualmente, pero tras una búsqueda superficial, no encuentro aplicación existente interesante. Supongo que el análisis de malware es demasiado caótico para formalizarlo...
+	\item \textbf{Investigación:} ¿Puede ser útil la lógica aplicada en la automatización del análisis de malware? Idea abierta...
+\end{itemize}
+
+\end{frame}
+
+\begin{frame}{Sistemas de detección de intrusos}
+
+Leyendo sobre seguridad informática, me entero de la existencia de los sistemas de detección de intrusos:
+
+\begin{itemize}
+	\item \textbf{Definición:} Su nombre dice mucho. La idea es identificar una intrusión según patrones de eventos en el host o en la red. Ciertos eventos por sí solos no son síntoma de intrusión, pero juntos y dispuestos en el \emph{tiempo} de cierta forma, sí...
+	\item \textbf{Hmmm...} Eso suena a lógica temporal. Una serie de eventos relacionados de cierta forma en el tiempo, vamos a ver...
+\end{itemize}
+
+\end{frame}
+
+\subsection{La investigación del estado del arte}
+
+\begin{frame}{Primera aproximación}
+
+\textbf{Primera parada:} Google (Lo siento... Por algún lado había que empezar, ¿no?). Términos de la busqueda: \emph{intrusion detection logic}
+
+\begin{itemize}
+	\item Me sale de todo menos lo que busco. Así que busco buscadores académicos. Me quedo principalmente con dos, \hrefCustom{http://scholar.google.com}{Google Scholar} y \hrefCustom{http://www.base-search.net}{BASE}
+\end{itemize}
+
+\textbf{Segunda parada:} Google Scholar y BASE: Mismos terminos de búsqueda. Tengo la opción de limitar por años. De 2012 a la actualidad, la seguridad informática cambia en pocos años...
+
+\begin{itemize}
+	\item En Google Scholar, me salen demasiados resultados irrelevantes. En BASE, me salen unas 100 publicaciones...
+\end{itemize}
+
+\end{frame}
+
+\begin{frame}{Investigar el estado del arte es duro...}
+
+\begin{itemize}
+	\item Reviso a mano los títulos de las 100 publicaciones y leo los resúmenes de las que tienen títulos relevantes
+\end{itemize}
+\begin{itemize}
+	\item Descargo unas 7 publicaciones (más 8 en una revisión posterior) para leerlas
+\end{itemize}
+\begin{itemize}
+	\item Me doy cuenta de que no sé leer publicaciones (pierdo mucho tiempo leyendo y comprendiendo partes innecesarias)
+\end{itemize}
+\begin{itemize}
+	\item Algunas publicaciones se basan en otras y tienes que leerte esas otras para enterarte de algo
+\end{itemize}
+
+\end{frame}
+
+\begin{frame}{Tipos de publicaciones encontradas (I)}
+
+\begin{itemize}
+	\item \textbf{Lógica sin razonador:} Como ejemplo, uso de un subconjunto bastante limitado de una exótica lógica llamada MSFOMTL para especificar los patrones. Pero no usa razonador, sino que traduce las fórmulas que representan patrones a queries en StreamSQL \cite{musulman}.
+\end{itemize}
+\begin{itemize}
+	\item \textbf{Publicaciones incompletas} Ya sea por demasiado abstractas \cite{abstracto} o porque dicen estar construyendo prototipos que a día de hoy siguen sin aparecer \cite{prototipo}.
+\end{itemize}
+
+\end{frame}
+
+\begin{frame}{Tipos de publicaciones encontradas (II)}
+
+\begin{itemize}
+	\item \textbf{Lógica difusa:} Muchas publicaciones que usan clasificadores basados en la teoría de conjuntos difusos (con reglas difusas tipo if-then) y te hablan de la lógica difusa muy alegremente \cite{difusa}.
+\end{itemize}
+\begin{itemize}
+	\item \textbf{Lógica temporal:} Las publicaciones que finalmente tratan sobre la aplicación de la lógica temporal, con razonadores automáticos y mención de su complejidad computacional \cite{temporal}.
+\end{itemize}
+
+\end{frame}
+
+\section{Lógica temporal aplicada a IDS's}
+
+\subsection{Puesta en contexto}
+
+\begin{frame}{Una serie de eventos como evidencia de la intrusión}
+De forma genérica, la evidencia de la intrusión en un sistema está compuesta por una serie de eventos relacionados en el tiempo de una forma característica:
+
+\begin{itemize}
+	\item A nivel de host, un evento puede ser una llamada al sistema, un inicio de sesión...
+\end{itemize}
+\begin{itemize}
+	\item Y a nivel de red, un paquete IP con ciertas características, o a más alto nivel, una conversación TCP...
+\end{itemize}
+
+\end{frame}
+
+\begin{frame}{Aplicación de la lógica temporal}
+
+Esta serie de eventos se puede traducir a un modelo de una lógica temporal, llamémoslo \(\mathbf{M}\)
+
+Y una intrusión se puede traducir a una fórmula en esa lógica, llamémosla \(\mathbf{p}\)
+
+Diremos que existe una intrusión representada por \(\mathbf{p}\) si esta se puede inferir de la serie de eventos representada por \(\mathbf{M}\) (es decir, \(\mathbf{M \bm{\models} p}\))
+
+Esto es lo que se conoce como \textbf{verificación de modelos}.
+
+\end{frame}
+
+\subsection{Análisis de la publicacion principal}
+
+\begin{frame}{Algunas lógicas temporales}
+
+A la hora de elegir una lógica concreta, tenemos que saber qué queremos expresar con ella (el dominio lo dirá), para elegir una lógica con la expresividad adecuada. Las siguientes lógicas han sido usadas en IDS's anteriores:
+
+\begin{itemize}
+	\item \textbf{Linear Temporal Logic (LTL):} Lógica temporal modal, también llamada Propositional Temporal Logic, no es muy expresiva. \textbf{No puede expresar eventos concurrentes}.
+\end{itemize}
+\begin{itemize}
+	\item  \textbf{Interval Temporal Logic (ITL):} Ampliación de la LTL, esta sí permite expresar eventos concurrentes. \textbf{No puede expresar restricciones temporales entre eventos}.
+\end{itemize}
+
+\end{frame}
+
+\begin{frame}{RASL, la lógica adecuada}
+
+Ya que la serie de eventos tratada por un IDS contiene eventos concurrentes y restricciones temporales entre eventos, es necesaria una nueva lógica que tenga la expresividad suficiente. Debido a esa necesidad surge \textbf{RASL}, con las siguientes características:
+
+\begin{itemize}
+	\item Parece lo suficientemente expresiva para expresar cualquier tipo de intrusión en un sistema (hipótesis personal)
+\end{itemize}
+\begin{itemize}
+	\item Es decidible, y tiene complejidad exponencial.
+\end{itemize}
+\begin{itemize}
+	\item Para verificación de modelos, existe un algoritmo óptimo.
+\end{itemize}
+
+\end{frame}
+
+\begin{frame}{Sintaxis y semántica de RASL}
+
+\textbf{RASL} es esencialmente \textbf{ITL} más el operador \textbf{prj} y el operador \(\mathbf{\bm{;}_I}\)
+
+\hrefCustom{part-all.pdf}{Diapositivas sobre sintaxis y semántica de ITL (página 22 del PDF}
+
+\hrefCustom{Duan, Z. 1996.pdf}{Explicación del operador \emph{prj} (página 83 del PDF)}
+
+El operador \(\mathbf{\bm{;}_I}\) es como el operador \(\bm{;}\) pero con un intervalo de tiempo entre ambos eventos definido por \textbf{I}
+
+\end{frame}
+
+\begin{frame}{Ejemplos de intrusiones expresadas en RASL}
+
+\hrefCustom{621203.pdf}{Publicación principal (página 5 del PDF)}
+
+\end{frame}
+
+\section{Conclusión}
+
+\subsection{Estado del arte en la actualidad}
+
+\begin{frame}{Estado del arte en la actualidad}
+
+Creo que el estudio del estado del arte realizado por los autores de la publicación principal es bastante bueno, y dada la antigüedad de la publicación (1 año), considero que en su mayor parte sigue vigente, y que esta publicación representa bastante bien el estado del arte actual, respecto a la aplicación de la lógica temporal a IDS's para detección de intrusiones según las series de eventos que provocan.
+
+Y al ser la lógica temporal más expresiva posible (sin contar su versión híbrida, que para esta aplicación no parece necesaria), un IDS no puede necesitar más expresividad (sin salirse de la temporal). Sería interesante, eso sí, optimizar la ejecución real de algoritmo de verificación de modelos, todo lo que sea posible.
+
+\end{frame}
+
+\subsection{Cosas que he aprendido}
+
+\begin{frame}{Cosas que he aprendido}
+
+\begin{itemize}
+	\item El proceso de investigación del estado del arte (buscar publicaciones, seguir la pista a sus autores...)
+\end{itemize}
+\begin{itemize}
+	\item Leer publicaciones de una forma eficiente
+\end{itemize}
+\begin{itemize}
+	\item El estado del arte actual en lógica aplicada a IDS's y lógicas temporales con más profundidad
+\end{itemize}
+\begin{itemize}
+	\item El mundo de las publicaciones no es tan elitista, hay bastantes publicaciones de calidad dudosa
+\end{itemize}
+
+\end{frame}
+
+\subsection{Cosas que tendría que aprender}
+
+\begin{frame}{Cosas que tendría que aprender}
+
+\begin{itemize}
+	\item Aprender más sobre la lógica temporal, en general.
+\end{itemize}
+\begin{itemize}
+	\item Entender perfectamente la semántica formal de la lógica RASL.
+\end{itemize}
+\begin{itemize}
+	\item Estudiar los algoritmos actuales de verificación de modelos, para entender y optimizar el propuesto para RASL.
+\end{itemize}
+\begin{itemize}
+	\item Aprender más sobre los sistemas de detección de intrusos.
+\end{itemize}
+
+\end{frame}
+
+
+\begin{thebibliography}{9}
+
+\begin{frame}{Bibliografía (I)}
+
+\bibitem{musulman}
+Abdulbasit M. Ahmed;
+\emph{Online Network Intrusion Detection System Using Temporal Logic and Stream Data Processing; University of Liverpool PhD Thesis; 2013}.\\
+\url{http://cgi.csc.liv.ac.uk/~alexei/TeSTid/thesisfinal.pdf}
+
+\bibitem{abstracto}
+Ahmad Salahi, Morteza Ansarinia;
+\emph{Predicting Network Attacks Using Ontology-Driven Inference; International Journal of Information and Communication Technology (IJICT), Volume 4, Issue 1; 2012}.\\
+\url{http://arxiv.org/ftp/arxiv/papers/1304/1304.0913.pdf}
+
+\end{frame}
+
+\begin{frame}{Bibliografía (II)}
+\bibitem{prototipo}
+M. Couture, B. Ktari, M. Mejri, F. Massicotte
+\emph{A Declarative Approach to Stateful Intrusion Detection and Network Monitoring; 2nd Annual Conference on Privacy, Security and Trust (PST), Fredericton, New Brunswick, Canada, pages 175-179; 2004}.\\
+\url{http://cg.scs.carleton.ca/~mathieu/MCouture_PSTFredericton2004.pdf}
+
+\bibitem{difusa}
+Richard A. Wasniowski;
+\emph{Agent Based Intrusion Detection with Fuzzy Logic; WSEAS Transactions on Systems, Issue 10, Volume 3, pages 3169-3173; 2004}.\\
+\url{http://www.wseas.us/e-library/conferences/athens2004-b/papers/474-297.pdf}
+
+\end{frame}
+
+\begin{frame}{Bibliografía (III)}
+
+\bibitem{temporal}
+Weijun Zhu, Qinglei Zhou, Weidong Yang, Haibin Zhang;
+\emph{A Novel Algorithm for Intrusion Detection Based on RASL Model Checking; Hindawi, Mathematical Problems in Engineering, Article ID 621203; 2013}.\\
+\url{http://downloads.hindawi.com/journals/mpe/2013/621203.pdf}
+
+\vspace{2em}
+
+\emph{Nota: No aparecen reflejadas las publicaciones leídas que son referenciadas en alguna de las ya reflejadas. Ni tampoco las usadas para aprender conceptos generales puntuales.}
+
+\end{frame}
+
+\end{thebibliography}
+
+\end{document}
