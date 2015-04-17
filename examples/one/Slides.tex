@@ -12,10 +12,12 @@
 \setlength{\parskip}{1em}
 \usetheme{Warsaw}
 
-\title{Vulnerabilidades usando SDR}
-\subtitle{SDR = Software Defined Radio}
-\author{Carlos Ledesma Peña}
-\institute{Trabajo de Fin de Grado, E.T.S. de Ingeniería Informática}
+\title{Introduccion a la Ingeniería Inversa}
+\subtitle{Análisis de Malware, cracking de aplicaciones...}
+\author{Carlos Ledesma Peña
+\and
+Fernando Díaz Urbano}
+\institute{Grupo de Desarrollo de Google, Málaga}
 \date{}
 
 %\AtBeginSection[]
@@ -47,128 +49,96 @@
 
 \section{Introducción}
 
-\subsection{Justificación}
+\subsection{¿Qué es la Ingenieria Inversa?}
 
-\begin{frame}{¿Por qué es importante la seguridad informática?}
+\begin{frame}{¿Cómo podemos definirla?}
 
-La mayoría de los sistemas informáticos en producción no se encuentran aislados, sino que automatizan la gestión de la información en otros sistemas, información sensible...
+Se trata de la obtención de información, o de un diseño a partir de un producto, con el fin de determinar como esta hecho, cómo funciona, y cómo fue fabricado.
 \begin{itemize}
-	\item \textbf{Correos electrónicos:} ¿Y si terceros pudiesen leer nuestra correspondencia electrónica? (confidencialidad).
-	\item \textbf{Transferencias bancarias:} ¿Y si se pudiese cambiar el destinatario de una transferencia bancaria? (integridad).
-	\item \textbf{Gestión de intervenciones de ambulancias:} ¿No morirían personas si las ambulancias llegan tarde por estar el sistema caído? (disponibilidad).
+	\item \textbf{Dispositivos electronicos} 
+	\item \textbf{Programas informáticos}
+	\item \textbf{Artilugios de uso cotidiano}
 \end{itemize}
 
 \end{frame}
 
-\begin{frame}{La preocupación por la radiocomunicación}
+\begin{frame}{¿A qué podemos aplicarla?}
+Este concepto se puede aplicar a diversas aplicaciones, se viene haciendo desde tiempos inmemoriales.
+\begin{itemize}
+	\item \textbf{Dispositivos electronicos} 
+	\item \textbf{Programas informáticos}
+	\item \textbf{Artilugios de uso cotidiano}
+\end{itemize}
+\end{frame}
 
-\begin{columns}
+\begin{frame}{¿Qué herramientas necesitamos?}
+\begin{itemize}
+\item \textbf{Conocer la API de Windows(Si el reversing se hace en Windows)}
+\item \textbf{Debuggers}
+\item \textbf{Conocimientos en Assembly}
+\item \textbf{¡Un cerebro!}
+\end{itemize}
 
-\begin{column}{.25\textwidth}
+\end{frame}
+
+
+
+\subsection{Conceptos básicos}
+
+\begin{frame}{Análisis estático VS Dinámico}
+Estatico:
+\begin{itemize}
+	\item \textbf{Permite examinar todos los valores de variables y caminos}
+	\item \textbf{Encontrar errores que no se manifestarán hasta pasado mucho tiempo}
+\end{itemize}
+Dinámico
+\begin{itemize}
+	\item \textbf{Permite revelar defectos o vulnerabilidades difíciles de encontrar estáticamete}
+	\item \textbf{Observar el comportamiento deun ejecutable encriptado}
+\end{itemize}
+Necesitamos de ambos, para poder llevar a cabo un análisis completo.
+
+
+\end{frame}
+
+\begin{frame}{WinDBG}
+
+Esta herramienta desarrollada por Microsoft, nos permite:
+\begin{itemize}
+\item \textbf{Debuggear a nivel de Kernel(Ring 0)}
+\item \textbf{Debuggear el propio Sistema Operativa}
+\item \textbf{No tiene GUI, funciona a traves de una consola}
+\item \textbf{Es complicado para principiantes, tedioso}
+\end{itemize}
 \begin{center}
-\includegraphics[scale=0.1]{Question-Mark.jpg}
-\end{center}
-\end{column}
-
-\begin{column}{.66\textwidth}
-\bigskip
-\textbf{¿Debe preocuparnos la seguridad de los sistemas que usan radiocomunicación?}
-\end{column}
-
-\end{columns}
-
-\end{frame}
-
-\begin{frame}{Características de un ataque}
-
-Un ataque puede ser llevado a distancia y anonimamente (y a más distancia de lo normal para ese sistema).
-
-\bigskip
-
-\begin{columns}
-
-\begin{column}{.66\textwidth}
-\begin{center}
-\includegraphics[scale=0.5]{bluetooth_sniper_rifle.jpg}
-\end{center}
-\end{column}
-
-\begin{column}{.40\textwidth}
-\emph{John Hering con su rifle BlueSniper, con el que es posible interactuar con dispositivos Bluetooth a más de kilómetro y medio de distancia.}
-\end{column}
-
-\end{columns}
-
-\end{frame}
-
-\begin{frame}{Uso y posible abuso}
-
-El número de dispositivos que usan radiocomunicación aumenta con el tiempo:
-
-\begin{itemize}
-	\item Un router \emph{Wi-Fi}, unos auriculares \emph{Bluetooth}, un pasaporte con \emph{RFID}, un teléfono móvil, otros dispositivos usando protocolos propietarios...
-\end{itemize}
-
-Las herramientas de ataque cada vez son más baratas y más fáciles de usar:
-
-\begin{itemize}
-	\item Dispositivos usando tecnología SDR por apenas 20 dólares, y software gratuito y relativamente simple con interfaz gráfica.
-\end{itemize}
-
-\end{frame}
-
-\subsection{¿Qué es SDR?}
-
-\begin{frame}{Vulnerabilidad, radio y sofware defined radio}
-
-Antes de empezar, es conveniente dar algunas definiciones:
-
-\begin{itemize}
-	\item \textbf{Vulnerabilidad: } Error de diseño o implementación en un sistema que puede ser aprovechado para comprometer la confidencialidad, integridad o disponibilidad de éste.
-	\item \textbf{Radio:} Tecnología que transmite o recibe sin cables radiación electromagnética para transferir información. También se llama así al sistema o dispositivo incorporando esta tecnología.
-	\item \textbf{Software defined radio:} Radio en la cual algunas o todas las funciones de las capas físicas están implementadas en software.
-\end{itemize}
-
-\end{frame}
-
-\begin{frame}{En la práctica}
-
-La mayoría de los dispositivos SDR de consumo que se utilizan junto con un ordenador personal, básicamente sintonizan a una frecuencia y capturan una banda determinada, digitalizándola y enviándola al PC, donde se hará el resto de operaciones (separación en canales, demodulación, decodificación, división en tramas...).
-
-\begin{center}
-\includegraphics[scale=0.06]{USRP-B200.jpg}
+\includegraphics[scale=0.21]{windbg.png}
 \end{center}
 
 \end{frame}
 
 \section{Evolución en el tiempo de la tecnología SDR}
 
-\begin{frame}{Comienzos}
+\begin{frame}{Ollydbg}
 
 \begin{itemize}
-	\item \textbf{Década de los 70:} Interés por parte del sector de defensa en un sistema de radio flexible.
-	\item \textbf{1984:} Prototipo primitivo de SDR, únicamente recepción.
-	\item \textbf{1991:} Comienzo del programa \emph{SPEAKeasy}, que buscaba crear un dispositivo único que fuese compatible con varios dispositivos existentes.
-	\item \textbf{1998:} Primera versión de \emph{SignalMaster}, una de las primeras plataformas de desarrollo SDR.
-	\item \textbf{2001:} Creación de \emph{GNU Radio}, el entorno de desarrollo open source más importante.
-	\item \textbf{2006:} Salida al mercado de \emph{Small Form Factor}, la primera plataforma de desarrollo SDR completa y autónoma.
+	\item \textbf{Posee GUI}
+	\item \textbf{User-level debugging(Ring 3)} 
+	\item \textbf{Más sencillo para principiantes}
 \end{itemize}
-
+\includegraphics[scale=0.25]{OllyDbg2.png}
 \end{frame}
 
 \subsection{Comienzos}
 
-\begin{frame}{Comienzos}
-
+\begin{frame}{Anillos de protección}
+ \begin{center}
+\includegraphics[scale=0.35]{Priv_rings.png}
+\end{center}
+\textbf{HyperVisor}
 \begin{itemize}
-	\item \textbf{Década de los 70:} Interés por parte del sector de defensa en un sistema de radio flexible.
-	\item \textbf{1984:} Prototipo primitivo de SDR, únicamente recepción.
-	\item \textbf{1991:} Comienzo del programa \emph{SPEAKeasy}, que buscaba crear un dispositivo único que fuese compatible con varios dispositivos existentes.
-	\item \textbf{1998:} Primera versión de \emph{SignalMaster}, una de las primeras plataformas de desarrollo SDR.
-	\item \textbf{2001:} Creación de \emph{GNU Radio}, el kit de desarrollo open source más importante.
-	\item \textbf{2006:} Salida al mercado de \emph{Small Form Factor}, la primera plataforma de desarrollo SDR completa y autónoma.
+\item \textbf{AMD-V}: Pacifica
+\item \textbf{Intel VT-x}: Vanderpool
 \end{itemize}
-
 \end{frame}
 
 \subsection{Seguridad}
