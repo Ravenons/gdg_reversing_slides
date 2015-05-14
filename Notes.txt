@@ -1,0 +1,16 @@
+
+---- ANTECEDENTES
+
+La ingeniería inversa no es un concepto específico de la informática. Básicamente, es averiguar cómo funciona algo ya construido. En ingeniería, tienes conocimiento y lo aplicas para construir un producto, y en la ingeniería inversa, tienes el producto y lo que buscas es el conocimiento.
+
+Aquí podemos ver un par de ejemplos de ingeniería inversa aplicada a productos militares. Esto es una máquina Enigma, usada en la época de la segunda guerra mundial por los alemanes para cifrar sus comunicaciones. La versión militar alemana era una versión mejorada, pero secreta. Al aplicar ingeniería inversa y reconstruirla los aliados, se pudieron interceptar mensajes importantes que resultaron decisivos en el transcurso de la guerra.
+
+Esto es un misil aire-aire soviético, el K-13, una copia casi idéntica del AIM-9 estadounidense. La copia fue posible gracias a que un misil disparado contra un caza chino, en vez de explotar, se quedó atascado. El piloto consiguió aterrizar, se recuperó el misil, y los rusos convencieron a los chinos para que se lo dieran. El ingeniero jefe de la companía que lo examinó dijo que para ellos fue como un curso universitario en tecnología de construcción de misiles.
+
+---- APLICACIONES EN INFORMÁTICA
+
+Naturalmente, estamos en informática, así que vamos a introducir la ingeniería inversa en el campo de la informática, y concretamente su aplicación en el análisis de ejecutables.
+
+¿Para qué se suele usar concretamente la ingeniería inversa en informática?
+
+

@@ -10,14 +10,26 @@
 \newcommand{\hrefCustom}[2]{\href{#1}{\color{blue} #2}}
 
 \setlength{\parskip}{1em}
-\usetheme{Warsaw}
+\usetheme{Singapore}
+
+\definecolor{title_color}{HTML}{3F51B5}
+\setbeamercolor{titlelike}{fg=title_color}
+
+\definecolor{structure_color}{HTML}{F44336}
+\setbeamercolor{structure}{fg=structure_color}
+
+\definecolor{author_color}{HTML}{4CAF50}
+\setbeamercolor{author}{fg=author_color}
+
+\definecolor{institute_color}{HTML}{FFC107}
+\setbeamercolor{institute}{fg=institute_color} 
 
 \title{Introduccion a la Ingeniería Inversa}
-\subtitle{Análisis de Malware, cracking de aplicaciones...}
+\subtitle{Análisis de malware, cracking de software...}
 \author{Carlos Ledesma Peña
 \and
 Fernando Díaz Urbano}
-\institute{Grupo de Desarrollo de Google, Málaga}
+\institute{Grupo de Desarrollo de \raisebox{-0.5ex}{\includegraphics[scale=0.22]{Logo_Google_2013_Official.png}}, Málaga}
 \date{}
 
 %\AtBeginSection[]
@@ -49,20 +61,37 @@ Fernando Díaz Urbano}
 
 \section{Introducción}
 
-\subsection{¿Qué es la Ingenieria Inversa?}
+\subsection{¿Qué es la ingenieria inversa?}
 
-\begin{frame}{¿Cómo podemos definirla?}
+\begin{frame}{Antecedentes}
 
-Se trata de la obtención de información, o de un diseño a partir de un producto, con el fin de determinar como esta hecho, cómo funciona, y cómo fue fabricado.
-\begin{itemize}
-	\item \textbf{Dispositivos electronicos} 
-	\item \textbf{Programas informáticos}
-	\item \textbf{Artilugios de uso cotidiano}
-\end{itemize}
+\begin{columns}
+
+\begin{column}{.50\textwidth}
+\begin{center}
+\includegraphics[scale=0.15]{hires-wehr3.jpg}
+\end{center}
+\end{column}
+
+\begin{column}{.50\textwidth}
+\begin{figure}
+\vspace{-1ex}\hspace{-2.5ex}\includegraphics[scale=0.11]{K-13.jpg}
+\end{figure}
+
+\vspace{2ex}
+\textbf{Izquierda}: Máquina Enigma versión militar alemana
+
+\vspace{1ex}
+
+\textbf{Arriba}: Misil K-13 soviético aire-aire 
+
+\end{column}
+
+\end{columns}
 
 \end{frame}
 
-\begin{frame}{¿A qué podemos aplicarla?}
+\begin{frame}{Aplicaciones en informática}
 Este concepto se puede aplicar a diversas aplicaciones, se viene haciendo desde tiempos inmemoriales.
 \begin{itemize}
 	\item \textbf{Dispositivos electronicos} 
@@ -81,7 +110,7 @@ Este concepto se puede aplicar a diversas aplicaciones, se viene haciendo desde 
 
 \end{frame}
 
-#Sugiero basar la presentación en explicar por encima cada uno de estos aspectos, además de explicar conceptos como los de análisis estático y dinámico y las demostraciones
+%Sugiero basar la presentación en explicar por encima cada uno de estos aspectos, además de explicar conceptos como los de análisis estático y dinámico y las demostraciones
 \begin{frame}{¿Qué debemos conocer?}
 \begin{itemize}
 \item \textbf{El entorno} \\ \hspace{4ex}Sistema operativo, proceso, ejecutable, librería...

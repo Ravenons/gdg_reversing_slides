@@ -1,8 +1,0 @@
-# LaTeX auxiliary files
-*.aux
-*.log
-*.nav
-*.out
-*.snm
-*.synctex.gz
-*.toc
