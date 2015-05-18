@@ -11,6 +11,12 @@ Esto es un misil aire-aire soviético, el K-13, una copia casi idéntica del AIM
 
 Naturalmente, estamos en informática, así que vamos a introducir la ingeniería inversa en el campo de la informática, y concretamente su aplicación en el análisis de ejecutables.
 
-¿Para qué se suele usar concretamente la ingeniería inversa en informática?
+¿Para qué se suele usar la ingeniería inversa en informática?
 
+Por ejemplo, para cualquier modificación (ya sea para corregir o mejorar) de programas existentes sin código fuente. Especial mención a la ingeniería inversa sobre programas para permitir su interacción con otros, algo totalmente legal en Europa y Estados Unidos.
 
+También se usa para analizar malware. Por alguna extraña razón a los programadores de malware se les suele olvidar liberar el código fuente de sus creaciones, por lo que para saber lo que hace un malware, hay que recurrir a la ingeniería inversa.
+
+Otra aplicación típica es la búsqueda de vulnerabilidades en programas de código cerrado. Como curiosidad, los programadores de exploits suelen aplicar ingeniería inversa a los parches de productos que corrigen vulnerabilidades. Comparando la versión previa (vulnerable) con la versión corregida con un comparador de binarios, se puede ver la parte de código que varía. Se analiza entonces la vulnerabilidad corregida y se crea un exploit para ésta, que funcionará mientras las víctimas potenciales no actualicen.
+
+Y finalmente, una aplicación controvertida de la ingeniería inversa, crackear programas. La definición en Wikipedia es "la modificación de programas para eliminar o desactivar características consideradas indeseables por la persona crackeando el programa". La característica indeseable suele ser una protección anticopia, mensajes que te recuerdan que no has registrado el programa, publicidad...
