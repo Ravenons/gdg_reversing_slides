@@ -126,19 +126,20 @@ Fernando Díaz Urbano}
 
 \subsection{Conceptos básicos}
 
-\begin{frame}{Análisis estático VS Dinámico}
-Estatico:
+\begin{frame}{Tipos de análisis}
+\vspace{-3ex}
+\textbf{Estático}
 \begin{itemize}
-	\item \textbf{Permite examinar todos los valores de variables y caminos}
-	\item \textbf{Encontrar errores que no se manifestarán hasta pasado mucho tiempo}
+	\item Permite examinar todos los caminos y valores de variables
+	\item Examen directo de ramas de ejecución poco frecuentes
+	\item No efectivo contra código automodificable o muy ofuscado
 \end{itemize}
-Dinámico
+\textbf{Dinámico}
 \begin{itemize}
-	\item \textbf{Permite revelar defectos o vulnerabilidades difíciles de encontrar estáticamete}
-	\item \textbf{Observar el comportamiento deun ejecutable encriptado}
+	\item Sólo se ejecuta un camino cada vez, dependiente del entorno
+	\item Más fácil entender lógica complicada viendo la ejecución
+	\item Efectivo contra código automodificable u ofuscado
 \end{itemize}
-Necesitamos de ambos, para poder llevar a cabo un análisis completo.
-
 
 \end{frame}
 
