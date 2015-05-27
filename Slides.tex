@@ -32,23 +32,23 @@ Fernando Díaz Urbano}
 \institute{Grupo de Desarrollo de \raisebox{-0.5ex}{\includegraphics[scale=0.22]{Logo_Google_2013_Official.png}}, Málaga}
 \date{}
 
-%\AtBeginSection[]
-%{
-%	\begin{frame}[shrink=37]
-%		\frametitle{Índice}
-%		\vspace{2em}
-%		\tableofcontents[currentsection]
-%	\end{frame}
-%}
-
-\AtBeginSubsection[]
+\AtBeginSection[]
 {
 	\begin{frame}[shrink=37]
 		\frametitle{Índice}
 		\vspace{2em}
-		\tableofcontents[currentsection,currentsubsection]
+		\tableofcontents[currentsection]
 	\end{frame}
 }
+
+%\AtBeginSubsection[]
+%{
+%	\begin{frame}[shrink=37]
+%		\frametitle{Índice}
+%		\vspace{2em}
+%		\tableofcontents[currentsection,currentsubsection]
+%	\end{frame}
+%}
 
 % To include images from 'images' directory
 \graphicspath{ {./images/} }
@@ -61,30 +61,24 @@ Fernando Díaz Urbano}
 
 \section{Introducción}
 
-\subsection{¿Qué es la ingenieria inversa?}
-
 \begin{frame}{Antecedentes}
 
 \begin{columns}
 
 \begin{column}{.50\textwidth}
 \begin{center}
-\includegraphics[scale=0.15]{hires-wehr3.jpg}
+\includegraphics[scale=0.1]{K-13.jpg}
+\vspace*{2ex}
+\\\textbf{Misil K-13 soviético aire-aire}
 \end{center}
 \end{column}
 
 \begin{column}{.50\textwidth}
-\begin{figure}
-\vspace{-1ex}\hspace{-2.5ex}\includegraphics[scale=0.11]{K-13.jpg}
-\end{figure}
-
-\vspace{2ex}
-\textbf{Izquierda}: Máquina Enigma versión militar alemana
-
-\vspace{1ex}
-
-\textbf{Arriba}: Misil K-13 soviético aire-aire 
-
+\begin{center}
+\includegraphics[scale=0.82]{stripped.png}
+\vspace*{2ex}
+\\\textbf{CDP MPC 1600-1}
+\end{center}
 \end{column}
 
 \end{columns}
@@ -96,35 +90,31 @@ Fernando Díaz Urbano}
 	\item \textbf{Mantenimiento de programas sin código fuente}\\ \hspace{4ex}Interacción de componentes, creación de documentación...
 	\item \textbf{Análisis de malware}\\ \hspace{4ex}Conocer objetivos y procedimientos de un malware
 	\item \textbf{Búsqueda de vulnerabilidades}\\ \hspace{4ex}En programas de código cerrado
-	\item \textbf{Cracking de programas}\\ \hspace{4ex}Remover protecciones anticopia
+	\item \textbf{Modding y cracking}\\ \hspace{4ex}Añadir o remover funcionalidades
 \end{itemize}
 \begin{center}... Entre otras.\end{center}
 \end{frame}
 
-\begin{frame}{¿Qué herramientas necesitamos?}
+\begin{frame}{Aplicaciones típicas en informática}
 \begin{itemize}
-\item \textbf{Conocer la API de Windows(Si el reversing se hace en Windows)}
-\item \textbf{Debuggers}
-\item \textbf{Conocimientos en Assembly}
-\item \textbf{¡Un cerebro!}
+	\item \textbf{Mantenimiento de programas sin código fuente}\\ \hspace{4ex}Interacción de componentes, creación de documentación...
+	\item \textbf{Análisis de malware}\\ \hspace{4ex}Conocer objetivos y procedimientos de un malware
+	\item \textbf{Búsqueda de vulnerabilidades}\\ \hspace{4ex}En programas de código cerrado
+	\item \textbf{\textcolor{structure_color}{Modding y cracking}}\\ \hspace{4ex}Añadir o remover funcionalidades
 \end{itemize}
-
+\begin{center}... Entre otras.\end{center}
 \end{frame}
 
 %Sugiero basar la presentación en explicar por encima cada uno de estos aspectos, además de explicar conceptos como los de análisis estático y dinámico y las demostraciones
 \begin{frame}{¿Qué debemos conocer?}
 \begin{itemize}
 \item \textbf{El entorno} \\ \hspace{4ex}Sistema operativo, proceso, ejecutable, librería...
+\item \textbf{Las herramientas} \\ \hspace{4ex}Desensamblador, depurador, monitor de recursos...
 \item \textbf{Los lenguajes} \\ \hspace{4ex}Ensamblador (x86), bytecode (CIL), scripting (Perl)...
 \item \textbf{Los patrones típicos} \\ \hspace{4ex}Reconocer un bucle while, una inyección en un proceso...
-\item \textbf{Las herramientas} \\ \hspace{4ex}Desensamblador, depurador, monitor de recursos...
 \end{itemize}
 
 \end{frame}
-
-
-
-\subsection{Conceptos básicos}
 
 \begin{frame}{Tipos de análisis}
 \vspace{-3ex}
@@ -143,21 +133,26 @@ Fernando Díaz Urbano}
 
 \end{frame}
 
-\begin{frame}{Opcodes}
+\section{Entorno}
 
+\begin{frame}[plain]
 \begin{center}
-\includegraphics[scale=0.3]{0cPOx.png}
+\includegraphics[scale=0.4]{pe_sections.png}
 \end{center}
-
 \end{frame}
 
-\begin{frame}{Bytecode}
-
-\begin{center}
-\includegraphics[scale=0.3]{java-program-execution2.png}
+\begin{frame}{Anillos de protección}
+ \begin{center}
+\includegraphics[scale=0.35]{Priv_rings.png}
 \end{center}
-
+\textbf{HyperVisor}
+\begin{itemize}
+\item \textbf{AMD-V}: Pacifica
+\item \textbf{Intel VT-x}: Vanderpool
+\end{itemize}
 \end{frame}
+
+\section{Herramientas}
 
 \begin{frame}{WinDBG}
 
@@ -174,8 +169,6 @@ Esta herramienta desarrollada por Microsoft, nos permite:
 
 \end{frame}
 
-\section{Evolución en el tiempo de la tecnología SDR}
-
 \begin{frame}{Ollydbg}
 
 \begin{itemize}
@@ -186,17 +179,22 @@ Esta herramienta desarrollada por Microsoft, nos permite:
 \includegraphics[scale=0.25]{OllyDbg2.png}
 \end{frame}
 
-\subsection{Comienzos}
+\section{Lenguajes}
 
-\begin{frame}{Anillos de protección}
- \begin{center}
-\includegraphics[scale=0.35]{Priv_rings.png}
+\begin{frame}{Opcodes}
+
+\begin{center}
+\includegraphics[scale=0.3]{0cPOx.png}
 \end{center}
-\textbf{HyperVisor}
-\begin{itemize}
-\item \textbf{AMD-V}: Pacifica
-\item \textbf{Intel VT-x}: Vanderpool
-\end{itemize}
+
+\end{frame}
+
+\begin{frame}{Bytecode}
+
+\begin{center}
+\includegraphics[scale=0.3]{java-program-execution2.png}
+\end{center}
+
 \end{frame}
 
 \subsection{Seguridad}
