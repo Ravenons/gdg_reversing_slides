@@ -22,24 +22,24 @@
 \setbeamercolor{author}{fg=author_color}
 
 \definecolor{institute_color}{HTML}{FFC107}
-\setbeamercolor{institute}{fg=institute_color} 
+\setbeamercolor{institute}{fg=structure_color} 
 
 \title{Introduccion a la Ingeniería Inversa}
 \subtitle{Análisis de malware, cracking de software...}
 \author{Carlos Ledesma Peña
 \and
 Fernando Díaz Urbano}
-\institute{Grupo de Desarrollo de \raisebox{-0.5ex}{\includegraphics[scale=0.22]{Logo_Google_2013_Official.png}}, Málaga}
+\institute{Grupo de Desarrolladores de \raisebox{-0.45ex}{\includegraphics[scale=0.22]{Logo_Google_2013_Official.png}}, Málaga}
 \date{}
 
-\AtBeginSection[]
-{
-	\begin{frame}[shrink=37]
-		\frametitle{Índice}
-		\vspace{2em}
-		\tableofcontents[currentsection]
-	\end{frame}
-}
+%\AtBeginSection[]
+%{
+%	\begin{frame}[shrink=37]
+%		\frametitle{Índice}
+%		\vspace{2em}
+%		\tableofcontents[currentsection]
+%	\end{frame}
+%}
 
 %\AtBeginSubsection[]
 %{
@@ -108,10 +108,10 @@ Fernando Díaz Urbano}
 %Sugiero basar la presentación en explicar por encima cada uno de estos aspectos, además de explicar conceptos como los de análisis estático y dinámico y las demostraciones
 \begin{frame}{¿Qué debemos conocer?}
 \begin{itemize}
-\item \textbf{El entorno} \\ \hspace{4ex}Sistema operativo, proceso, ejecutable, librería...
+\item \textbf{El entorno} \\ \hspace{4ex}Proceso, ejecutable, thread, librería...
 \item \textbf{Las herramientas} \\ \hspace{4ex}Desensamblador, depurador, monitor de recursos...
-\item \textbf{Los lenguajes} \\ \hspace{4ex}Ensamblador (x86), bytecode (CIL), scripting (Perl)...
-\item \textbf{Los patrones típicos} \\ \hspace{4ex}Reconocer un bucle while, una inyección en un proceso...
+\item \textbf{Los lenguajes} \\ \hspace{4ex}Ensamblador (x86), bytecode (JavaVM), scripting...
+\item \textbf{Los patrones típicos} \\ \hspace{4ex}Reconocer un bucle for, uso típico de la API Win32...
 \end{itemize}
 
 \end{frame}
@@ -141,27 +141,63 @@ Fernando Díaz Urbano}
 \end{center}
 \end{frame}
 
+\begin{frame}{Ejecutables, procesos y threads}
+
+\begin{columns}
+
+\begin{column}{.50\textwidth}
+\begin{center}
+\includegraphics[scale=0.35]{threads.png}
+\end{center}
+\end{column}
+
+\begin{column}{.50\textwidth}
+\begin{itemize}
+\item \textbf{Ejecutable}\\ \hspace{4ex}Contenedor de código,\\\hspace{4ex}''plantilla'' de procesos
+\item \textbf{Proceso}\\ \hspace{4ex}Rango de memoria,\\\hspace{4ex}contenedor de threads
+\item \textbf{Thread}\\ \hspace{4ex}Contexto de ejecución,\\\hspace{4ex}corren en paralelo
+\end{itemize}
+\end{column}
+
+\end{columns}
+
+\end{frame}
+
 \begin{frame}{Anillos de protección}
  \begin{center}
 \includegraphics[scale=0.35]{Priv_rings.png}
 \end{center}
-\textbf{HyperVisor}
+\end{frame}
+
+\begin{frame}{Win32 API}
+\vspace{-4ex}
+\begin{center}
+Casi desde Windows 95 hasta Windows 10...
+\end{center}
+\vspace{-2ex}
+\textbf{kernel32.dll}
 \begin{itemize}
-\item \textbf{AMD-V}: Pacifica
-\item \textbf{Intel VT-x}: Vanderpool
+	\item Procesos: \textit{CreateProcess, CreateThread, LoadLibrary...}
+	\item Archivos: \textit{CreateFile, CopyFile, GetFilesize...}
+	\item Memoria: \textit{VirtualAlloc, HeapAlloc, MapViewOfFile...}
 \end{itemize}
+\textbf{user32.dll}
+\begin{itemize}
+	\item Iniciar GUI's: \textit{CreateWindowEx, MessageBox, LoadCursor...}
+	\item Gestionar GUI's: \textit{GetMessage, PeekMessage, PostMessage...}
+\end{itemize}
+
 \end{frame}
 
 \section{Herramientas}
 
 \begin{frame}{WinDBG}
 
-Esta herramienta desarrollada por Microsoft, nos permite:
 \begin{itemize}
-\item \textbf{Debuggear a nivel de Kernel(Ring 0)}
-\item \textbf{Debuggear el propio Sistema Operativa}
-\item \textbf{No tiene GUI, funciona a traves de una consola}
-\item \textbf{Es complicado para principiantes, tedioso}
+\item Depurar ("debuggear") a nivel de kernel (ring 0)
+\item Debuggear el propio sistema operativo, drivers...
+\item Curva de aprendizaje empinada, tedioso...
+\item No tiene GUI, funciona a través de una consola
 \end{itemize}
 \begin{center}
 \includegraphics[scale=0.21]{windbg.png}
@@ -169,14 +205,42 @@ Esta herramienta desarrollada por Microsoft, nos permite:
 
 \end{frame}
 
-\begin{frame}{Ollydbg}
+\begin{frame}{OllyDBG}
 
 \begin{itemize}
-	\item \textbf{Posee GUI}
-	\item \textbf{User-level debugging(Ring 3)} 
-	\item \textbf{Más sencillo para principiantes}
+	\item Debuggear a nivel de aplicaciones (ring 3)
+	\item Más sencillo para principiantes
+	\item Posee GUI
 \end{itemize}
+\begin{center}
 \includegraphics[scale=0.25]{OllyDbg2.png}
+\end{center}
+\end{frame}
+
+\begin{frame}{IDA Pro}
+
+\begin{itemize}
+	\item Desemsamblador por excelencia, muchas funciones
+	\item Destaca por analizar profundamente
+	\item Dificultad media
+	\item Posee GUI
+\end{itemize}
+\begin{center}
+\includegraphics[scale=0.2]{incorrect_code.jpg}
+\end{center}
+\end{frame}
+
+\begin{frame}{Más herramientas}
+\begin{itemize}
+\item \textbf{Análisis estático de ejecutables} \\ \hspace{4ex}PEview, Dependency Walker, Strings, PEiD...
+\vspace{3ex}
+\item \textbf{Monitores} \\ \hspace{4ex}Process Explorer, Process Monitor, Wireshark, Regshot...
+\vspace{3ex}
+\item \textbf{Análisis de malware} \\ \hspace{4ex}Cuckoo Sandbox, AndroGuard, VirusTotal, Koodous...
+
+
+\end{itemize}
+
 \end{frame}
 
 \section{Lenguajes}
